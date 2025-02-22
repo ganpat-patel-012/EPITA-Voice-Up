@@ -1,0 +1,66 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif; /* Set a font for the body */
+    background-color: #f4f4f4; /* Light background color */
+    color: #333; /* Dark text color */
+}
+
+/* Main Content Styles */
+main {
+    max-width: 1200px; /* Limit the width of the form */
+    margin: 20px auto; /* Center the main content */
+    padding: 20px; /* Add padding for spacing */
+    background: #fff; /* White background for contrast */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+h1 {
+    text-align: center; /* Center the heading */
+    color: #333; /* Dark color for the heading */
+    margin-bottom: 20px; /* Space below the heading */
+}
+
+.form-group {
+    margin-bottom: 15px; /* Space below each form group */
+}
+
+label {
+    display: block; /* Block display for labels */
+    margin-bottom: 5px; /* Space below labels */
+}
+
+input[type="text"], textarea {
+    width: 100%; /* Full width for input fields */
+    padding: 10px; /* Padding for input fields */
+    border: 1px solid #ccc; /* Border for input fields */
+    border-radius: 4px; /* Rounded corners for input fields */
+}
+
+textarea {
+    resize: vertical; /* Allow vertical resizing for textarea */
+    height: 100px; /* Default height for textarea */
+}
+
+.btn {
+    display: inline-block; /* Make the button inline */
+    padding: 10px 15px; /* Button padding */
+    background: #4CAF50; /* Button background color */
+    color: #fff; /* Button text color */
+    text-decoration: none; /* Remove underline */
+    border-radius: 5px; /* Rounded corners for the button */
+    text-align: center; /* Center text in button */
+    margin: 20px auto; /* Center the button */
+    display: block; /* Ensure block display for centering */
+    transition: background 0.3s; /* Smooth background transition */
+}
+
+.btn:hover {
+    background: #45a049; /* Darker green on hover */
+}
+
+footer {
+    margin-top: 20px; /* Space above the footer */
+    text-align: center; /* Center text in footer */
+    padding: 10px 0; /* Padding for spacing */
+}

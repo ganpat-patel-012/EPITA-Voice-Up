@@ -190,4 +190,42 @@
     background: linear-gradient(45deg, #1a497f, #052f5c); /* Darker blue gradient on hover */
 }
 
+.sidebar-buttons {
+    margin-top: 20px;
+    margin-bottom: 40px; /* Space above the buttons */
+}
+
+.sidebar-buttons .btn {
+    display: block; /* Make buttons block-level */
+    padding: 10px 15px; /* Button padding */
+    background: #4CAF50; /* Button background color */
+    color: #fff; /* Button text color */
+    text-decoration: none; /* Remove underline */
+    border-radius: 5px; /* Rounded corners for the button */
+    text-align: center; /* Center text in button */
+    margin-bottom: 10px; /* Space between buttons */
+    transition: background 0.3s; /* Smooth background transition */
+}
+
+.sidebar-buttons .btn:hover {
+    background: #45a049; /* Darker green on hover */
+}
+
+.sidebar-buttons .btn-log {
+    display: block; /* Make buttons block-level */
+    padding: 10px 15px; /* Button padding */
+    background: rgb(152, 3, 3); /* Button background color */
+    color: #fff; /* Button text color */
+    text-decoration: none; /* Remove underline */
+    border-radius: 5px; /* Rounded corners for the button */
+    text-align: center; /* Center text in button */
+    margin-bottom: 10px; /* Space between buttons */
+    transition: background 0.3s; /* Smooth background transition */
+}
+
+.sidebar-buttons .btn-log:hover {
+    background: rgb(91, 2, 2); /* Darker green on hover */
+}
+
+
 

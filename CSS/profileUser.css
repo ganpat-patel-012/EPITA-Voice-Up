@@ -1,7 +1,14 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif; /* Set a font for the body */
+    background-color: #f4f4f4; /* Light background color */
+    color: #333; /* Dark text color */
+}
+
 /* Main Content Styles */
 main {
-    max-width: 800px; /* Limit the width of the profile section */
-    margin: 20px auto; /* Center the main content */
+    max-width:1400px; /* Limit the width of the profile section */
+    margin: 20px 20vh; /* Center the main content */
     padding: 20px; /* Add padding for spacing */
     background: #fff; /* White background for contrast */
     border-radius: 8px; /* Rounded corners */
@@ -14,18 +21,41 @@ h1 {
     margin-bottom: 20px; /* Space below the heading */
 }
 
-.profile-info {
-    margin-bottom: 20px; /* Space below the profile information */
+.profile-container {
+    display: flex; /* Use flexbox for layout */
+    justify-content: space-between; /* Space between profile card and ranking panel */
+    gap: 20px; /* Space between the two cards */
 }
 
-.profile-info p {
+.profile-card, .ranking-card {
+    flex: 1; /* Take up equal space */
+    background: #ffffff; /* White background for cards */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    padding: 20px; /* Padding for card content */
+    position: relative; /* Positioning context for the icon */
+}
+
+.profile-card h2, .ranking-card h2 {
+    display: flex; /* Use flex for icon and text alignment */
+    align-items: center; /* Center icon and text vertically */
+    margin-bottom: 15px; /* Space below the heading */
+}
+
+.profile-card h2 i, .ranking-card h2 i {
+    margin-right: 10px; /* Space between icon and text */
+    color: #4CAF50; /* Green color for icons */
+    font-size: 1.5em; /* Size of the icons */
+}
+
+.profile-info p, .ranking-card p {
     font-size: 16px; /* Set font size for readability */
     line-height: 1.5; /* Increase line height for better readability */
     margin: 10px 0; /* Space between paragraphs */
     color: #555; /* Slightly lighter text color */
 }
 
-.profile-info strong {
+.profile-info strong, .ranking-card strong {
     color: #4CAF50; /* Color for labels (strong text) */
 }
 
@@ -37,7 +67,7 @@ h1 {
     text-decoration: none; /* Remove underline */
     border-radius: 5px; /* Rounded corners for the button */
     text-align: center; /* Center text in button */
-    margin: 0 auto; /* Center the button */
+    margin: 20px auto; /* Center the button */
     display: block; /* Ensure block display for centering */
     transition: background 0.3s; /* Smooth background transition */
 }

@@ -145,8 +145,20 @@ while ($department = mysqli_fetch_assoc($department_query)) {
     </nav>
 </header>
 
+
+
 <div class="container">
     <div class="sidebar">
+
+        <!-- Add buttons for reporting an issue and accessing the profile -->
+        <div class="sidebar-buttons">
+            <a href="reportIssue.php" class="btn">Report an Issue</a> <!-- Button to report an issue -->
+            <a href="profileUser.php" class="btn">My Profile</a> <!-- Button to view user profile -->
+            <a href="userlead.php" class="btn">Leaderboard</a> <!-- Button to view user profile -->
+            <a href="logout.php" class="btn-log">Logout</a> <!-- Button to view user profile -->
+            <hr>
+        </div>
+
         <h3>Dashboard</h3>
         <p>Quick stats, user info, and useful links.</p>
         <ul class="department-list">
