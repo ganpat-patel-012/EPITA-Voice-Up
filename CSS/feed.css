@@ -116,3 +116,25 @@
 .downvote:hover {
     background: #c82333;
 }
+
+.issue-status {
+    display: inline-block;
+    padding: 10px 15px;
+    border-radius: 5px;
+    width: 30%;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: white; /* Text color */
+    background: linear-gradient(45deg, #2669c1, #145197); /* Blue gradient */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+    transition: background 0.3s, transform 0.3s; /* Smooth transitions */
+}
+
+.issue-status:hover {
+    transform: translateY(-2px); /* Lift effect on hover */
+    background: linear-gradient(45deg, #1a497f, #052f5c); /* Darker blue gradient on hover */
+}
+
+

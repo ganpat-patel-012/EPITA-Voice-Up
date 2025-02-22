@@ -2,8 +2,14 @@
 session_start();
 include '../config/db.php';
 
-// Get logged-in user's city
+// Ensure user is logged in
+if (!isset($_SESSION['u_id'])) {
+    die("Please log in to access this page.");
+}
+
 $user_id = $_SESSION['u_id'];
+
+// Get logged-in user's city
 $user_query = mysqli_query($conn, "SELECT u_city FROM user WHERE u_id = '$user_id'");
 $user = mysqli_fetch_assoc($user_query);
 $user_city = $user['u_city'];
@@ -21,17 +27,59 @@ $valid_sorts = [
 
 $sort_order = $valid_sorts[$sort_by] ?? 'i_created_at DESC';
 
-// Fetch issues with dynamic vote counts
+// Handle status filtering
+$status_filter = isset($_GET['status']) ? $_GET['status'] : 'Reported';
+$valid_statuses = ['All', 'Reported', 'Acknowledged', 'Work in progress', 'Solved', 'Closed'];
+
+// Ensure the status filter is a valid status
+if (!in_array($status_filter, $valid_statuses)) {
+    $status_filter = 'All'; // Default to 'All' if the value is invalid
+}
+
+$status_condition = $status_filter === 'All' ? '1' : "i.i_status = '$status_filter'"; // Show all issues if 'All' is selected
+
+// Fetch issues with vote counts
 $issue_query = mysqli_query($conn, "
     SELECT i.*, 
            COALESCE(SUM(CASE WHEN v.v_type = 'up' THEN 1 ELSE 0 END), 0) AS upvotes,
            COALESCE(SUM(CASE WHEN v.v_type = 'down' THEN 1 ELSE 0 END), 0) AS downvotes
     FROM issue i
     LEFT JOIN votes v ON i.i_id = v.v_i_id
-    WHERE i.i_city = '$user_city'
+    WHERE i.i_city = '$user_city' AND $status_condition
     GROUP BY i.i_id
     ORDER BY $sort_order
 ");
+
+// Fetch user's existing votes
+$user_votes_query = mysqli_query($conn, "SELECT v_i_id, v_type FROM votes WHERE v_u_id = '$user_id'");
+$user_votes = [];
+while ($vote = mysqli_fetch_assoc($user_votes_query)) {
+    $user_votes[$vote['v_i_id']] = $vote['v_type'];
+}
+
+// Handle vote submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['issue_id'], $_POST['type'])) {
+    $issue_id = $_POST['issue_id'];
+    $type = $_POST['type']; // 'up' or 'down'
+
+    // Check if the user already voted
+    if (isset($user_votes[$issue_id])) {
+        if ($user_votes[$issue_id] === $type) {
+            echo json_encode(["status" => "error", "message" => "You already voted this way!"]);
+            exit;
+        } else {
+            // Update vote type if switching
+            mysqli_query($conn, "UPDATE votes SET v_type = '$type' WHERE v_u_id = '$user_id' AND v_i_id = '$issue_id'");
+            echo json_encode(["status" => "success", "message" => "Vote updated!"]);
+            exit;
+        }
+    } else {
+        // Insert new vote
+        mysqli_query($conn, "INSERT INTO votes (v_u_id, v_i_id, v_type) VALUES ('$user_id', '$issue_id', '$type')");
+        echo json_encode(["status" => "success", "message" => "Vote added!"]);
+        exit;
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -44,14 +92,17 @@ $issue_query = mysqli_query($conn, "
     <link rel="stylesheet" href="../CSS/homePage.css">
     <link rel="stylesheet" href="../CSS/feed.css">
     <style>
-        .sort-container {
+        .filter-container {
+            display: flex;
+            justify-content: space-between;
             margin-bottom: 20px;
-            text-align: right;
         }
-        .sort-container select {
+        .filter-container select {
             padding: 8px;
             border-radius: 5px;
+            margin-right: 10px;
         }
+        .disabled { opacity: 0.5; cursor: not-allowed; }
     </style>
 </head>
 <body>
@@ -73,35 +124,62 @@ $issue_query = mysqli_query($conn, "
         <p>Quick stats, user info, and useful links.</p>
     </div>
     <div class="feed">
-    <div class="sort-container">
-        <label for="sort">Sort by:</label>
-        <select id="sort" onchange="sortIssues()">
-            <option value="latest" <?= $sort_by == 'latest' ? 'selected' : '' ?>>Latest</option>
-            <option value="oldest" <?= $sort_by == 'oldest' ? 'selected' : '' ?>>Oldest</option>
-            <option value="upvotes_desc" <?= $sort_by == 'upvotes_desc' ? 'selected' : '' ?>>Upvotes (High to Low)</option>
-            <option value="upvotes_asc" <?= $sort_by == 'upvotes_asc' ? 'selected' : '' ?>>Upvotes (Low to High)</option>
-            <option value="downvotes_desc" <?= $sort_by == 'downvotes_desc' ? 'selected' : '' ?>>Downvotes (High to Low)</option>
-            <option value="downvotes_asc" <?= $sort_by == 'downvotes_asc' ? 'selected' : '' ?>>Downvotes (Low to High)</option>
-        </select>
-    </div>
+        <div class="filter-container">
+            <div>
+                <label for="sort">Sort by:</label>
+                <select id="sort" onchange="filterIssues()">
+                    <option value="latest" <?= $sort_by == 'latest' ? 'selected' : '' ?>>Latest</option>
+                    <option value="oldest" <?= $sort_by == 'oldest' ? 'selected' : '' ?>>Oldest</option>
+                    <option value="upvotes_desc" <?= $sort_by == 'upvotes_desc' ? 'selected' : '' ?>>Upvotes (High to Low)</option>
+                    <option value="upvotes_asc" <?= $sort_by == 'upvotes_asc' ? 'selected' : '' ?>>Upvotes (Low to High)</option>
+                    <option value="downvotes_desc" <?= $sort_by == 'downvotes_desc' ? 'selected' : '' ?>>Downvotes (High to Low)</option>
+                    <option value="downvotes_asc" <?= $sort_by == 'downvotes_asc' ? 'selected' : '' ?>>Downvotes (Low to High)</option>
+                </select>
+            </div>
+            <div>
+                <label for="status">Status:</label>
+                <select id="status" onchange="filterIssues()">
+                    <option value="All" <?= $status_filter == 'All' ? 'selected' : '' ?>>All</option>
+                    <option value="Reported" <?= $status_filter == 'Reported' ? 'selected' : '' ?>>Reported</option>
+                    <option value="Acknowledged" <?= $status_filter == 'Acknowledged' ? 'selected' : '' ?>>Acknowledged</option>
+                    <option value="Work in progress" <?= $status_filter == 'Work in progress' ? 'selected' : '' ?>>Work in Progress</option>
+                    <option value="Solved" <?= $status_filter == 'Solved' ? 'selected' : '' ?>>Solved</option>
+                    <option value="Closed" <?= $status_filter == 'Closed' ? 'selected' : '' ?>>Closed</option>
+                </select>
+            </div>
+        </div>
 
-    <?php while ($issue = mysqli_fetch_assoc($issue_query)) { ?>
-        <div class="issue-card">
-            <img class="issue-img" src="../<?php echo $issue['i_image']; ?>" alt="Issue Image">
-            <div class="issue-content">
-                <div class="issue-title"><?php echo htmlspecialchars($issue['i_title']); ?></div>
-                <div class="issue-desc"><?php echo htmlspecialchars($issue['i_desc']); ?></div>
-                <p class="issue-date"><strong>Created at:</strong> <?php echo date("F j, Y, g:i A", strtotime($issue['i_created_at'])); ?></p>
-                <p class="issue-loc"><strong>Location:</strong> <?php echo htmlspecialchars($issue['i_address']); ?></p>
-                <div class="vote-buttons">
-                    <button class="upvote" onclick="vote(<?php echo $issue['i_id']; ?>, 'up')">▲ <?php echo $issue['upvotes']; ?></button>
-                    <button class="downvote" onclick="vote(<?php echo $issue['i_id']; ?>, 'down')">▼ <?php echo $issue['downvotes']; ?></button>
+        <?php while ($issue = mysqli_fetch_assoc($issue_query)) { 
+            $user_vote = $user_votes[$issue['i_id']] ?? null;
+            // Check if the issue is Closed or Solved
+            $isClosedOrSolved = in_array($issue['i_status'], ['Closed', 'Solved']);
+        ?>
+            <div class="issue-card">
+                <img class="issue-img" src="../<?php echo $issue['i_image']; ?>" alt="Issue Image">
+                <div class="issue-content">
+                    <div class="issue-title"><?php echo htmlspecialchars($issue['i_title']); ?></div>
+                    <div class="issue-desc"><?php echo htmlspecialchars($issue['i_desc']); ?></div>
+                    <p class="issue-date"><strong>Created at:</strong> <?php echo date("F j, Y, g:i A", strtotime($issue['i_created_at'])); ?></p>
+                    <p class="issue-loc"><strong>Location:</strong> <?php echo htmlspecialchars($issue['i_address']); ?></p>
+                    <p class="issue-status"><strong>Status:</strong> <?php echo htmlspecialchars($issue['i_status']); ?></p>
+                    <div class="vote-buttons">
+                        <button 
+                            class="upvote <?= $user_vote === 'up' || $isClosedOrSolved ? 'disabled' : '' ?>" 
+                            onclick="<?= !$isClosedOrSolved ? 'vote(' . $issue['i_id'] . ', \'up\')' : 'return false;' ?>" 
+                            <?= $user_vote === 'up' || $isClosedOrSolved ? 'disabled' : '' ?>>
+                            ▲ <?php echo $issue['upvotes']; ?>
+                        </button>
+                        <button 
+                            class="downvote <?= $user_vote === 'down' || $isClosedOrSolved ? 'disabled' : '' ?>" 
+                            onclick="<?= !$isClosedOrSolved ? 'vote(' . $issue['i_id'] . ', \'down\')' : 'return false;' ?>" 
+                            <?= $user_vote === 'down' || $isClosedOrSolved ? 'disabled' : '' ?>>
+                            ▼ <?php echo $issue['downvotes']; ?>
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div> <!-- Correct placement of issue-card closing div -->
-    <?php } ?>
-</div> <!-- Now correctly closing .feed after all issues are added -->
-
+        <?php } ?>
+    </div>
 </div>
 
 <footer>
@@ -109,19 +187,26 @@ $issue_query = mysqli_query($conn, "
 </footer>
 
 <script>
-function sortIssues() {
+function filterIssues() {
     var sortValue = document.getElementById('sort').value;
-    window.location.href = "?sort=" + sortValue;
+    var statusValue = document.getElementById('status').value;
+    window.location.href = "?sort=" + sortValue + "&status=" + statusValue;
 }
 
 function vote(issueId, type) {
-    fetch('vote.php', {
+    fetch('', { // Same file
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: `issue_id=${issueId}&type=${type}`
     })
-    .then(response => response.text())
-    .then(data => location.reload());
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === "success") {
+            location.reload();
+        } else {
+            alert(data.message);
+        }
+    });
 }
 </script>
 
