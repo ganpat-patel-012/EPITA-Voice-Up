@@ -1,0 +1,53 @@
+/* Main Content Styles */
+main {
+    max-width: 800px; /* Limit the width of the profile section */
+    margin: 20px auto; /* Center the main content */
+    padding: 20px; /* Add padding for spacing */
+    background: #fff; /* White background for contrast */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+h1 {
+    text-align: center; /* Center the heading */
+    color: #333; /* Dark color for the heading */
+    margin-bottom: 20px; /* Space below the heading */
+}
+
+.profile-info {
+    margin-bottom: 20px; /* Space below the profile information */
+}
+
+.profile-info p {
+    font-size: 16px; /* Set font size for readability */
+    line-height: 1.5; /* Increase line height for better readability */
+    margin: 10px 0; /* Space between paragraphs */
+    color: #555; /* Slightly lighter text color */
+}
+
+.profile-info strong {
+    color: #4CAF50; /* Color for labels (strong text) */
+}
+
+.btn {
+    display: inline-block; /* Make the button inline */
+    padding: 10px 15px; /* Button padding */
+    background: #4CAF50; /* Button background color */
+    color: #fff; /* Button text color */
+    text-decoration: none; /* Remove underline */
+    border-radius: 5px; /* Rounded corners for the button */
+    text-align: center; /* Center text in button */
+    margin: 0 auto; /* Center the button */
+    display: block; /* Ensure block display for centering */
+    transition: background 0.3s; /* Smooth background transition */
+}
+
+.btn:hover {
+    background: #45a049; /* Darker green on hover */
+}
+
+footer {
+    margin-top: 20px; /* Space above the footer */
+    text-align: center; /* Center text in footer */
+    padding: 10px 0; /* Padding for spacing */
+}

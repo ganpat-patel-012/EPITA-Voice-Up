@@ -80,6 +80,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['issue_id'], $_POST['t
         exit;
     }
 }
+
+// Fetch department issue counts
+$department_query = mysqli_query($conn, "
+    SELECT d.d_name,
+           COUNT(i.i_id) AS total_issues,
+           SUM(i.i_status = 'Reported') AS reported,
+           SUM(i.i_status = 'Acknowledged') AS acknowledged,
+           SUM(i.i_status = 'Work in progress') AS work_in_progress,
+           SUM(i.i_status = 'Solved') AS solved,
+           SUM(i.i_status = 'Closed') AS closed
+    FROM department d
+    LEFT JOIN issue i ON d.d_id = i.i_d_id
+    WHERE i.i_city = '$user_city'
+    GROUP BY d.d_id
+");
+
+$departments = [];
+while ($department = mysqli_fetch_assoc($department_query)) {
+    $departments[] = $department;
+}
 ?>
 
 <!DOCTYPE html>
@@ -103,6 +123,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['issue_id'], $_POST['t
             margin-right: 10px;
         }
         .disabled { opacity: 0.5; cursor: not-allowed; }
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            margin: 10px 0;
+        }
     </style>
 </head>
 <body>
@@ -122,7 +149,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['issue_id'], $_POST['t
     <div class="sidebar">
         <h3>Dashboard</h3>
         <p>Quick stats, user info, and useful links.</p>
+        <ul class="department-list">
+            <?php foreach ($departments as $department) : ?>
+                <li class="department-item">
+                    <strong><?php echo htmlspecialchars($department['d_name']); ?></strong>: 
+                    <span class="issue-count"><?php echo $department['total_issues']; ?> issues</span>
+                    <ul class="status-list">
+                        <li class="status-item">Reported: <span class="status-count"><?php echo $department['reported']; ?></span></li>
+                        <li class="status-item">Acknowledged: <span class="status-count"><?php echo $department['acknowledged']; ?></span></li>
+                        <li class="status-item">Work in Progress: <span class="status-count"><?php echo $department['work_in_progress']; ?></span></li>
+                        <li class="status-item">Solved: <span class="status-count"><?php echo $department['solved']; ?></span></li>
+                        <li class="status-item">Closed: <span class="status-count"><?php echo $department['closed']; ?></span></li>
+                    </ul>
+                </li>
+            <?php endforeach; ?>
+        </ul>
     </div>
+
     <div class="feed">
         <div class="filter-container">
             <div>

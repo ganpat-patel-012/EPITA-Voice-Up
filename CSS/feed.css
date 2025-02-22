@@ -4,6 +4,7 @@
     flex-wrap: wrap; /* Allows content to stay within the container */
     width: 100%;
     margin-top: 20px;
+    align-items: start;
 }
 
 
@@ -11,10 +12,62 @@
 .sidebar {
     width: 25%;
     padding: 20px;
-    background-color: #f4f4f4;
-    border-right: 2px solid #ddd;
-    text-align: center;
+    background-color: #f4f4f4; /* Light grey background */
+    border-right: 2px solid #ddd; /* Light border for separation */
+    text-align: left;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
 }
+
+.sidebar h3 {
+    font-size: 1.5em; /* Increased size for header */
+    margin-bottom: 10px; /* Space below header */
+    color: #333; /* Darker text for contrast */
+}
+
+.sidebar p {
+    font-size: 1em; /* Base font size */
+    margin-bottom: 15px; /* Space below paragraph */
+    color: #666; /* Softer color for paragraph text */
+}
+
+.department-list {
+    list-style: none; /* Remove default list styles */
+    padding: 0; /* Remove default padding */
+}
+
+.department-item {
+    margin-bottom: 20px; /* Space between department items */
+    padding: 10px; /* Inner padding for department item */
+    background-color: #fff; /* White background for clarity */
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.department-item strong {
+    font-weight: bold; /* Make department names bold */
+    color: #007bff; /* Bootstrap primary color */
+}
+
+.issue-count {
+    font-weight: normal; /* Normal weight for issue count */
+    color: #333; /* Darker color for better visibility */
+}
+
+.status-list {
+    list-style: none; /* Remove default list styles */
+    padding: 0; /* Remove default padding */
+    margin-top: 10px; /* Space above status list */
+}
+
+.status-item {
+    margin-bottom: 5px; /* Space between status items */
+}
+
+.status-count {
+    font-weight: bold; /* Highlight the count */
+    color: #333; /* Darker color for visibility */
+}
+
 
 /* Feed layout */
 .feed {
