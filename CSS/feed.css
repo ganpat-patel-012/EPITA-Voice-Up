@@ -1,0 +1,118 @@
+/* Main container layout */
+.container {
+    display: flex;
+    flex-wrap: wrap; /* Allows content to stay within the container */
+    width: 100%;
+    margin-top: 20px;
+}
+
+
+/* Sidebar styling */
+.sidebar {
+    width: 25%;
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-right: 2px solid #ddd;
+    text-align: center;
+}
+
+/* Feed layout */
+.feed {
+    width: 75%;
+    padding: 20px;
+    flex-direction: block;
+}
+
+/* Updated Issue card layout */
+.issue-card {
+    display: flex;
+    flex-direction: row; /* Align image and text side by side */
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin-bottom: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: 0.3s;
+    overflow: hidden;
+    align-items: center; /* Ensures vertical alignment */
+    gap: 20px; /* Adds space between image and text */
+}
+
+.issue-card:hover {
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+/* Image styling */
+.issue-img {
+    width: 250px; /* Adjust width */
+    height: 250px; /* Maintain square shape */
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+/* Content wrapper */
+.issue-content {
+    flex: 1; /* Takes up remaining space */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Issue title */
+.issue-title {
+    font-size: 1.3em;
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Issue description */
+.issue-desc {
+    color: #666;
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+/* Issue location and date styling */
+.issue-loc, .issue-date {
+    color: #777;
+    font-size: 0.9em;
+    margin-bottom: 10px;
+    font-style: italic;
+}
+
+/* Voting buttons layout */
+.vote-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.vote-buttons button {
+    cursor: pointer;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.upvote {
+    background: #28a745;
+    color: white;
+}
+
+.downvote {
+    background: #dc3545;
+    color: white;
+}
+
+.upvote:hover {
+    background: #218838;
+}
+
+.downvote:hover {
+    background: #c82333;
+}
