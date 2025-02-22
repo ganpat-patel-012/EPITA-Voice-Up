@@ -98,8 +98,8 @@
 
 /* Image styling */
 .issue-img {
-    width: 250px; /* Adjust width */
-    height: 250px; /* Maintain square shape */
+    width: 350px; /* Adjust width */
+    height: 100%; /* Maintain square shape */
     object-fit: cover;
     border-radius: 5px;
 }
@@ -175,7 +175,7 @@
     padding: 10px 15px;
     border-radius: 5px;
     width: 30%;
-    font-size: 12px;
+    font-size: 10px;
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 1px;

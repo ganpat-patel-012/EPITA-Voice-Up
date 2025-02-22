@@ -1,0 +1,92 @@
+
+/* Main Content */
+main {
+    max-width: 1600px;
+    margin: 30px 20px;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #0056b3;
+}
+
+h2 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+p {
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+/* Map Styling */
+#map {
+    height: 400px;
+    width: 100%;
+    border-radius: 8px;
+    margin-top: 20px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    main {
+        width: 90%;
+    }
+    
+    header {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    nav {
+        margin-top: 10px;
+    }
+    
+    nav a {
+        display: block;
+        margin: 10px 0;
+    }
+}
+
+/* Voting buttons layout */
+.vote-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+    padding: 20px 0px;
+}
+
+.vote-buttons button {
+    cursor: pointer;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.upvote {
+    background: #28a745;
+    color: white;
+}
+
+.downvote {
+    background: #dc3545;
+    color: white;
+}
+
+.upvote:hover {
+    background: #218838;
+}
+
+.downvote:hover {
+    background: #c82333;
+}

@@ -147,6 +147,7 @@ while ($department = mysqli_fetch_assoc($department_query)) {
 </header>
 
 
+
 <div class="container">
     <div class="sidebar">
 
@@ -156,7 +157,7 @@ while ($department = mysqli_fetch_assoc($department_query)) {
             <a href="reportIssue.php" class="btn">Report an Issue</a> <!-- Button to report an issue -->
             <a href="profileUser.php" class="btn">My Profile</a> <!-- Button to view user profile -->
             <a href="userlead.php" class="btn">Leaderboard</a> <!-- Button to view user profile -->
-            <a href="map.php" class="btn">MapView</a> <!-- Button to report an issue -->
+            <a href="feed.php" class="btn">Feed View</a> <!-- Button to report an issue -->
             <a href="logout.php" class="btn-log">Logout</a> <!-- Button to view user profile -->
             <hr>
         </div>
@@ -179,68 +180,10 @@ while ($department = mysqli_fetch_assoc($department_query)) {
             <?php endforeach; ?>
         </ul>
     </div>
-
+    
     <div class="feed">
-        <div class="filter-container">
-            <div>
-                <label for="sort">Sort by:</label>
-                <select id="sort" onchange="filterIssues()">
-                    <option value="latest" <?= $sort_by == 'latest' ? 'selected' : '' ?>>Latest</option>
-                    <option value="oldest" <?= $sort_by == 'oldest' ? 'selected' : '' ?>>Oldest</option>
-                    <option value="upvotes_desc" <?= $sort_by == 'upvotes_desc' ? 'selected' : '' ?>>Upvotes (High to Low)</option>
-                    <option value="upvotes_asc" <?= $sort_by == 'upvotes_asc' ? 'selected' : '' ?>>Upvotes (Low to High)</option>
-                    <option value="downvotes_desc" <?= $sort_by == 'downvotes_desc' ? 'selected' : '' ?>>Downvotes (High to Low)</option>
-                    <option value="downvotes_asc" <?= $sort_by == 'downvotes_asc' ? 'selected' : '' ?>>Downvotes (Low to High)</option>
-                </select>
-            </div>
-            <div>
-                <label for="status">Status:</label>
-                <select id="status" onchange="filterIssues()">
-                    <option value="All" <?= $status_filter == 'All' ? 'selected' : '' ?>>All</option>
-                    <option value="Reported" <?= $status_filter == 'Reported' ? 'selected' : '' ?>>Reported</option>
-                    <option value="Acknowledged" <?= $status_filter == 'Acknowledged' ? 'selected' : '' ?>>Acknowledged</option>
-                    <option value="Work in progress" <?= $status_filter == 'Work in progress' ? 'selected' : '' ?>>Work in Progress</option>
-                    <option value="Solved" <?= $status_filter == 'Solved' ? 'selected' : '' ?>>Solved</option>
-                    <option value="Closed" <?= $status_filter == 'Closed' ? 'selected' : '' ?>>Closed</option>
-                </select>
-            </div>
-        </div>
-
-        <?php while ($issue = mysqli_fetch_assoc($issue_query)) { 
-            $user_vote = $user_votes[$issue['i_id']] ?? null;
-            // Check if the issue is Closed or Solved
-            $isClosedOrSolved = in_array($issue['i_status'], ['Closed', 'Solved']);
-        ?>
-            <div class="issue-card">
-                <img class="issue-img" src="../<?php echo $issue['i_image']; ?>" alt="Issue Image">
-                <div class="issue-content">
-                    <div class="issue-title"><?php echo htmlspecialchars($issue['i_title']); ?></div>
-                    <div class="issue-desc"><?php echo htmlspecialchars($issue['i_desc']); ?></div>
-                    <p class="issue-date"><strong>Created at:</strong> <?php echo date("F j, Y, g:i A", strtotime($issue['i_created_at'])); ?></p>
-                    <p class="issue-loc"><strong>Location:</strong> <?php echo htmlspecialchars($issue['i_address']); ?></p>
-                    <p class="issue-status"><strong>Status:</strong> <?php echo htmlspecialchars($issue['i_status']); ?></p>
-                    <div class="vote-buttons">
-                        <button 
-                            class="upvote <?= $user_vote === 'up' || $isClosedOrSolved ? 'disabled' : '' ?>" 
-                            onclick="<?= !$isClosedOrSolved ? 'vote(' . $issue['i_id'] . ', \'up\')' : 'return false;' ?>" 
-                            <?= $user_vote === 'up' || $isClosedOrSolved ? 'disabled' : '' ?>>
-                            ▲ <?php echo $issue['upvotes']; ?>
-                        </button>
-                        <button 
-                            class="downvote <?= $user_vote === 'down' || $isClosedOrSolved ? 'disabled' : '' ?>" 
-                            onclick="<?= !$isClosedOrSolved ? 'vote(' . $issue['i_id'] . ', \'down\')' : 'return false;' ?>" 
-                            <?= $user_vote === 'down' || $isClosedOrSolved ? 'disabled' : '' ?>>
-                            ▼ <?php echo $issue['downvotes']; ?>
-                        </button>
-                        <a href="https://www.openstreetmap.org/?mlat=<?php echo htmlspecialchars($issue['i_lat']); ?>&mlon=<?php echo htmlspecialchars($issue['i_long']); ?>&zoom=18" target="_blank">
-                            <button mat-button>Show In Map</button>
-                        </a>
-
-                    </div>
-                    
-                </div>
-            </div>
-        <?php } ?>
+    <?php include 'mapview.php'; ?>
+    </div>
     </div>
 </div>
 

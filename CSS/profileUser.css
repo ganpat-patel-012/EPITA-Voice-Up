@@ -1,83 +1,176 @@
 /* General Styles */
 body {
-    font-family: Arial, sans-serif; /* Set a font for the body */
-    background-color: #f4f4f4; /* Light background color */
-    color: #333; /* Dark text color */
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    margin: 0;
+    padding: 0;
 }
 
-/* Main Content Styles */
+/* Main Content */
 main {
-    max-width:1400px; /* Limit the width of the profile section */
-    margin: 20px 20vh; /* Center the main content */
-    padding: 20px; /* Add padding for spacing */
-    background: #fff; /* White background for contrast */
-    border-radius: 8px; /* Rounded corners */
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    max-width: 1600px;
+    margin: 30px 10%;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 h1 {
-    text-align: center; /* Center the heading */
-    color: #333; /* Dark color for the heading */
-    margin-bottom: 20px; /* Space below the heading */
+    text-align: center;
+    color: #004aac;
+    margin-bottom: 25px;
+    font-size: 28px;
 }
 
+/* Profile Container */
 .profile-container {
-    display: flex; /* Use flexbox for layout */
-    justify-content: space-between; /* Space between profile card and ranking panel */
-    gap: 20px; /* Space between the two cards */
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
+/* Profile and Ranking Cards */
 .profile-card, .ranking-card {
-    flex: 1; /* Take up equal space */
-    background: #ffffff; /* White background for cards */
-    border-radius: 8px; /* Rounded corners */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    padding: 20px; /* Padding for card content */
-    position: relative; /* Positioning context for the icon */
+    flex: 1;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    min-width: 45%;
 }
 
 .profile-card h2, .ranking-card h2 {
-    display: flex; /* Use flex for icon and text alignment */
-    align-items: center; /* Center icon and text vertically */
-    margin-bottom: 15px; /* Space below the heading */
+    display: flex;
+    align-items: center;
+    font-size: 22px;
+    margin-bottom: 15px;
+    color: #004aac;
 }
 
 .profile-card h2 i, .ranking-card h2 i {
-    margin-right: 10px; /* Space between icon and text */
-    color: #4CAF50; /* Green color for icons */
-    font-size: 1.5em; /* Size of the icons */
+    margin-right: 10px;
+    color: #4CAF50;
+    font-size: 1.5em;
 }
 
-.profile-info p, .ranking-card p {
-    font-size: 16px; /* Set font size for readability */
-    line-height: 1.5; /* Increase line height for better readability */
-    margin: 10px 0; /* Space between paragraphs */
-    color: #555; /* Slightly lighter text color */
+/* Tables */
+.profile-card table, .ranking-card table {
+    width: 100%;
+    border-collapse: collapse;
 }
 
-.profile-info strong, .ranking-card strong {
-    color: #4CAF50; /* Color for labels (strong text) */
+.profile-card td, .ranking-card td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    font-size: 16px;
 }
 
+.profile-card strong, .ranking-card strong {
+    color: #4CAF50;
+}
+
+/* Button */
 .btn {
-    display: inline-block; /* Make the button inline */
-    padding: 10px 15px; /* Button padding */
-    background: #4CAF50; /* Button background color */
-    color: #fff; /* Button text color */
-    text-decoration: none; /* Remove underline */
-    border-radius: 5px; /* Rounded corners for the button */
-    text-align: center; /* Center text in button */
-    margin: 20px auto; /* Center the button */
-    display: block; /* Ensure block display for centering */
-    transition: background 0.3s; /* Smooth background transition */
+    display: block;
+    width: max-content;
+    padding: 12px 18px;
+    background: #4CAF50;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 6px;
+    text-align: center;
+    margin: 25px auto;
+    transition: background 0.3s, transform 0.2s;
+    font-size: 16px;
 }
 
 .btn:hover {
-    background: #45a049; /* Darker green on hover */
+    background: #45a049;
+    transform: scale(1.05);
 }
 
+/* Issues Table */
+.issue-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.issue-table th, .issue-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+.issue-table th {
+    background-color: #004aac;
+    color: white;
+}
+
+.issue-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+form {
+    margin-bottom: 20px;
+}
+
+
+
+/* Footer */
 footer {
-    margin-top: 20px; /* Space above the footer */
-    text-align: center; /* Center text in footer */
-    padding: 10px 0; /* Padding for spacing */
+    text-align: center;
+    padding: 15px;
+    background-color: #004aac;
+    color: white;
+    font-size: 16px;
+    margin-top: 30px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .profile-container {
+        flex-direction: column;
+    }
+
+    .profile-card, .ranking-card {
+        width: 100%;
+    }
+
+    .btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+.delete-btn {
+    background-color: #dc3545; /* Red color */
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.delete-btn:hover {
+    background-color: #c82333; /* Darker red on hover */
+    transform: scale(1.05); /* Slight zoom effect */
+}
+
+.delete-btn i {
+    font-size: 16px;
+}
+
+.delete-btn:disabled {
+    background-color: #6c757d; /* Gray when disabled */
+    cursor: not-allowed;
+    opacity: 0.6;
+    transform: none;
 }

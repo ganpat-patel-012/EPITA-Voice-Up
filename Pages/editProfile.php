@@ -68,6 +68,7 @@ mysqli_close($conn);
         <img src="../images/logo-vu.png" alt="Voice Up Logo">
     </div>
     <nav>
+    <a href="feed.php">Feed</a>
         <a href="../index.php">Home</a>
         <a href="about.php">About Us</a>
         <a href="offer.php">What We Offer</a>

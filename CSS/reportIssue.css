@@ -1,66 +1,89 @@
 /* General Styles */
 body {
-    font-family: Arial, sans-serif; /* Set a font for the body */
-    background-color: #f4f4f4; /* Light background color */
-    color: #333; /* Dark text color */
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
 }
 
 /* Main Content Styles */
 main {
-    max-width: 1200px; /* Limit the width of the form */
-    margin: 20px auto; /* Center the main content */
-    padding: 20px; /* Add padding for spacing */
-    background: #fff; /* White background for contrast */
-    border-radius: 8px; /* Rounded corners */
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    max-width: 1200px;
+    margin: 20px 40vh;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
 }
 
 h1 {
-    text-align: center; /* Center the heading */
-    color: #333; /* Dark color for the heading */
-    margin-bottom: 20px; /* Space below the heading */
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
 }
 
 .form-group {
-    margin-bottom: 15px; /* Space below each form group */
+    margin-bottom: 15px;
+    padding: 5px 20px;
 }
 
 label {
-    display: block; /* Block display for labels */
-    margin-bottom: 5px; /* Space below labels */
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
 }
 
-input[type="text"], textarea {
-    width: 100%; /* Full width for input fields */
-    padding: 10px; /* Padding for input fields */
-    border: 1px solid #ccc; /* Border for input fields */
-    border-radius: 4px; /* Rounded corners for input fields */
+/* Input Fields */
+input[type="text"],
+textarea,
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
 textarea {
-    resize: vertical; /* Allow vertical resizing for textarea */
-    height: 100px; /* Default height for textarea */
+    resize: vertical;
+    height: 100px;
 }
 
+/* Read-only fields */
+input[readonly] {
+    background-color: #e9ecef;
+    cursor: not-allowed;
+}
+
+/* Hidden Fields */
+input[type="hidden"] {
+    display: none;
+}
+
+/* Department Dropdown */
+select {
+    background-color: #fff;
+    cursor: pointer;
+}
+
+/* Button */
 .btn {
-    display: inline-block; /* Make the button inline */
-    padding: 10px 15px; /* Button padding */
-    background: #4CAF50; /* Button background color */
-    color: #fff; /* Button text color */
-    text-decoration: none; /* Remove underline */
-    border-radius: 5px; /* Rounded corners for the button */
-    text-align: center; /* Center text in button */
-    margin: 20px auto; /* Center the button */
-    display: block; /* Ensure block display for centering */
-    transition: background 0.3s; /* Smooth background transition */
+    display: block;
+    width: 100%;
+    padding: 10px 15px;
+    background: #4CAF50;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    text-align: center;
+    transition: background 0.3s;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
 }
 
 .btn:hover {
-    background: #45a049; /* Darker green on hover */
+    background: #45a049;
 }
 
-footer {
-    margin-top: 20px; /* Space above the footer */
-    text-align: center; /* Center text in footer */
-    padding: 10px 0; /* Padding for spacing */
+.form-submit{
+    padding: 10px 30px;
 }
