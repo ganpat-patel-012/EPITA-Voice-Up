@@ -90,3 +90,12 @@ p {
 .downvote:hover {
     background: #c82333;
 }
+
+.issue-image {
+    width: 500px;   /* Ensures the image doesn't exceed its container's width */
+    height: auto;      /* Maintains the aspect ratio */
+    border: 1px solid #ccc; /* Optional: Adds a border around the image */
+    border-radius: 8px; /* Optional: Rounds the corners of the image */
+    margin-top: 20px;  /* Adds some space above the image */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Optional: Adds a slight shadow for depth */
+}

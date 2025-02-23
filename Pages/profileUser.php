@@ -84,12 +84,30 @@ if ($row = $result->fetch_assoc()) {
 } else {
     echo "No ranking data found.";
 }
+
+// Handle issue closing
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['close_issue'])) {
+    $issueId = $_POST['close_issue'];
+    $closeQuery = "UPDATE issue SET i_status = 'Closed' WHERE i_id = ? AND i_u_id = ? AND i_status != 'Closed'";
+    $closeStmt = $conn->prepare($closeQuery);
+    $closeStmt->bind_param("ii", $issueId, $userId);
+
+    if ($closeStmt->execute()) {
+        echo "<script>alert('Issue marked as closed!'); window.location.href='profileUser.php';</script>";
+    } else {
+        echo "<script>alert('Error closing issue: " . $closeStmt->error . "');</script>";
+    }
+}
+
+
+
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="../images/logo-vu.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
     <link rel="stylesheet" href="../CSS/headerFooter.css">
@@ -160,7 +178,8 @@ if ($row = $result->fetch_assoc()) {
                 <th>Description</th>
                 <th>Status</th>
                 <th>Created At</th>
-                <th>Action</th>
+                <th>Delete It</th>
+                <th>Close It</th>
             </tr>
         </thead>
         <tbody>
@@ -177,6 +196,15 @@ if ($row = $result->fetch_assoc()) {
                             <button type="submit" class="delete-btn" 
                                 <?php echo ($issue['i_status'] !== 'Reported') ? 'disabled style="opacity: 0.5; cursor: not-allowed;"' : ''; ?>>
                                 <i class="fas fa-trash-alt"></i> Delete
+                            </button>
+                        </form>
+                    </td>
+                    <td>
+                        <form method="POST" onsubmit="return confirm('Are you sure you want to close this issue?');">
+                            <input type="hidden" name="close_issue" value="<?php echo $issue['i_id']; ?>">
+                            <button type="submit" class="delete-btn" 
+                                <?php echo ($issue['i_status'] === 'Closed') ? 'disabled style="opacity: 0.5; cursor: not-allowed;"' : ''; ?>>
+                                <i class="fas fa-check-circle"></i> Close
                             </button>
                         </form>
                     </td>

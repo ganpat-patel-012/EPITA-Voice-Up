@@ -106,6 +106,7 @@ while ($department = mysqli_fetch_assoc($department_query)) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+<link rel="icon" type="image/png" href="../images/logo-vu.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Voice Up</title>
     <link rel="stylesheet" href="../CSS/headerFooter.css">
@@ -235,6 +236,11 @@ while ($department = mysqli_fetch_assoc($department_query)) {
                         <a href="https://www.openstreetmap.org/?mlat=<?php echo htmlspecialchars($issue['i_lat']); ?>&mlon=<?php echo htmlspecialchars($issue['i_long']); ?>&zoom=18" target="_blank">
                             <button mat-button>Show In Map</button>
                         </a>
+
+                        <a href="issueDetail.php?id=<?php echo htmlspecialchars($issue['i_id']); ?>" target="_blank">
+                            <button mat-button>View Details</button>
+                        </a>
+
 
                     </div>
                     

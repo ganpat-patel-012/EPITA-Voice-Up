@@ -2,8 +2,8 @@
 session_start();
 
 // Redirect to dashboard if already logged in
-if (isset($_SESSION['u_id'])) {
-    header("Location: feed.php");
+if (isset($_SESSION['d_id'])) {
+    header("Location: depDash.php");
     exit();
 }
 
@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = trim($_POST['password']);
 
     // Prepared statement to prevent SQL injection
-    $sql = "SELECT u_id, u_pass FROM User WHERE u_email = ?";
+    $sql = "SELECT d_id, d_pass FROM department WHERE d_email = ?";
     $stmt = mysqli_prepare($conn, $sql);
 
     if ($stmt) {
@@ -26,11 +26,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $result = mysqli_stmt_get_result($stmt);
 
         if ($row = mysqli_fetch_assoc($result)) {
-
-
-            if ($password === $row['u_pass']) {
-                $_SESSION['u_id'] = $row['u_id'];
-                header("Location: feed.php");
+            if ($password === $row['d_pass']) { // Plain text comparison (not recommended)
+                $_SESSION['d_id'] = $row['d_id'];
+                header("Location: dashboard.php");
                 exit();
             } else {
                 $error_message = "Invalid password. Please try again.";
@@ -48,14 +46,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 mysqli_close($conn);
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
 <link rel="icon" type="image/png" href="../images/logo-vu.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Voice Up</title>
+    <title>Department Login</title>
 
     <link rel="stylesheet" href="../CSS/headerFooter.css">
     <link rel="stylesheet" href="../CSS/homePage.css">
@@ -63,7 +60,6 @@ mysqli_close($conn);
     
 </head>
 <body>
-
     <header>
         <div class="logo">
             <img src="../images/logo-vu.png" alt="Voice Up Logo">
@@ -79,21 +75,18 @@ mysqli_close($conn);
     <div class="main-container">
         <!-- Login Form -->
         <div class="form-container">
-            <h2>Login to Your Account</h2>
+            <h2>Department Login</h2>
             <?php if (!empty($error_message)) { echo "<p class='error-message'>$error_message</p>"; } ?>
-            <form method="POST" action="login.php">
+            <form method="POST" action="loginDep.php">
                 <input type="email" name="email" placeholder="Email Address" required>
                 <input type="password" name="password" placeholder="Password" required>
                 <input type="submit" value="Login">
             </form>
-            <p>Don't have an account? <a href="signup.php">Register here</a></p>
         </div>
     </div>
 
     <footer>
         Copyright © 2025 Voice Up
     </footer>
-
 </body>
 </html>
-

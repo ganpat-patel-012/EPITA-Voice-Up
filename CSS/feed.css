@@ -198,6 +198,7 @@
 .sidebar-buttons .btn {
     display: block; /* Make buttons block-level */
     padding: 10px 15px; /* Button padding */
+    width: 100%;
     background: #4CAF50; /* Button background color */
     color: #fff; /* Button text color */
     text-decoration: none; /* Remove underline */
